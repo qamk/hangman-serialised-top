@@ -1,6 +1,6 @@
 # frozen-string-literal: true
 
-require 'yaml'
+require 'json'
 
 # Module for the hangman game
 module Mechanics
@@ -31,7 +31,7 @@ module Mechanics
   end
 
   def valid_guess?(guess, guesses)
-    return true if guess == 'save'
+    return true if %w[save exit].include? guess
 
     return false if guess.length != 1 || guesses.include?(guess)
 
@@ -55,8 +55,19 @@ module Mechanics
   end
 
   def serialise(obj)
-    fname = obj.player.name
-    serialised_obj = YAML.dump(obj)
-    File.open("#{fname}.yaml", 'w') { |file| file.puts serialised_obj }
+    serialised_obj = JSON.dump(
+      {
+        player: obj.player.name,
+        secret_word: obj.secret_word,
+        secret_word_array: obj.secret_word_array,
+        mistakes_left: obj.mistakes_left,
+        guesses: obj.guesses
+      }
+    )
+    File.open("#{obj.player.name}.json", 'w') { |file| file.puts serialised_obj }
+  end
+
+  def deserialise(fname)
+    File.open(fname, 'r') { |file| JSON.load file }
   end
 end
