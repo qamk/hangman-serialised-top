@@ -23,9 +23,9 @@ module Display
       ],
       '_incorrect' => [
         'Not quite the right guess...',
-        'Getting close... I hope anyway',
+        'Getting closer... I hope anyway',
         'Nope, not what I\'m looking for',
-        'Another and compeltely different letter would have done the trick.'
+        'A compeltely different letter would have done the trick.'
       ],
       '_invalid' => [
         'That guess is simply unacceptable! Humph.',
@@ -40,12 +40,13 @@ module Display
   end
 
   def display_intro
-    puts "To save the game enter 'save'. Abover all else remember: this is \e[1mHangman\e[0m. So. Don't. Get. Hanged."
+    puts "To save the game enter 'save'\nTo exit enter 'exit'.\nAbove all else remember: this is \e[1mHangman\e[0m. So. Don't. Get. Hanged."
     puts
   end
 
   def display_array(secret_word_array)
-    print "#{secret_word_array.join ''}\n\n"
+    puts "#{secret_word_array.join ''}\n"
+    puts
   end
 
   def display_mistakes_left(mistakes_left)

@@ -9,6 +9,7 @@ Okay, dramatic explanation aside, it's time to explain how this project *extends
 - [x] Picks a random word between 5 and 12 letters long
 - [x] Penalise incorrect guesses
 - [x] Allow the user to save the game
+- [x] Allow the user to load a previous game
 - [x] (Optional) Add colour
 - [] (Optional) Add instructions
 
