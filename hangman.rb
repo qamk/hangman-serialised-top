@@ -8,14 +8,28 @@ require_relative 'lib/display.rb'
 class Hangman
   include Display
   include Mechanics
+
   attr_reader :secret_word, :player, :secret_word_array, :mistakes_left, :guess, :guesses, :method_hash
-  def initialize
+  def initialize(load = false, fname = nil)
+    load ? load_game(fname) : new_game
+    play
+  end
+
+  def new_game
     @player = Player.new
     @secret_word = select_word
     @secret_word_array = secret_word.split('').map { '_' }
-    @mistakes_left = 10
+    @mistakes_left = 8
     @guesses = []
-    play
+  end
+
+  def load_game(fname)
+    old_save = deserialise(fname)
+    @player = Player.new(old_save['player'])
+    @secret_word = old_save['secret_word']
+    @secret_word_array = old_save['secret_word_array']
+    @mistakes_left = old_save['mistakes_left']
+    @guesses = old_save['guesses']
   end
 
   def play
@@ -26,10 +40,13 @@ class Hangman
       break if mistakes_left.zero? || secret_word_array.join == select_word || key == '_serialise'
 
       validate_guess
+      break if guess == 'exit'
+
       key = process_guess(guess, secret_word)
       call_me(key, process_method_hash(key))
       @mistakes_left -= 1 if key == '_incorrect'
     end
+    puts "The secret word was \e[38;5;255m#{secret_word}\e[0m" if mistakes_left.zero?
   end
 
   def validate_guess
@@ -57,4 +74,3 @@ class Hangman
     method_hash[key]
   end
 end
-Hangman.new
