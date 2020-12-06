@@ -7,7 +7,7 @@ module Mechanics
   def select_word
     secret_word = ''
     File.open('5desk.txt') do |file|
-      word_list = file.readlines.map(&:chomp).filter { |word| word.length.between?(5, 12) }
+      word_list = file.readlines.map(&:chomp).select { |word| word.length.between?(5, 12) }
       secret_word = word_list.sample
     end
     secret_word
