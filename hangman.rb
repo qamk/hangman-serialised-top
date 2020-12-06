@@ -37,7 +37,7 @@ class Hangman
     loop do
       system('clear')
       display_elements(key)
-      break if mistakes_left.zero? || secret_word_array.join == select_word || key == '_serialise'
+      break if mistakes_left.zero? || secret_word_array.join == secret_word || key == '_serialise'
 
       validate_guess
       break if guess == 'exit'
